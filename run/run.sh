@@ -12,9 +12,7 @@
 PRAM_HOME=$(cd "$(dirname "$0")"; pwd)
 PRAM_UTILS=${PRAM_HOME}/utils
 PRAM_LOG_DIR=${PRAM_HOME}/log
-echo $PRAM_HOME
-echo $PRAM_UTILS
-echo $PRAM_LOG_DIR
+
 . ${PRAM_UTILS}/logWriter.sh
 
 declare __DEBUG__=on
@@ -193,6 +191,8 @@ function RunTest()
 
     return ${g_OK}
 }
+
+# main
 function main()
 {
     logWriter INFO "main() called end ..." | tee -a ${g_RUN_LOG}
