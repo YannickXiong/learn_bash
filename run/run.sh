@@ -144,7 +144,6 @@ function Install()
         if [[ $? -eq 0 ]]; then
             if [[ -f ${GOPATH}/bin/${_project_} ]]; then
                 logWriter INFO "Build project ${_project_} successfully." | tee -a ${g_RUN_LOG}
-                logWriter INFO "Install() called end ..." | tee -a ${g_RUN_LOG}
                 # return ${g_OK} # cannot return here, otherwise, the rest will not be built
             fi
         else
@@ -195,7 +194,7 @@ function RunTest()
 # main
 function main()
 {
-    logWriter INFO "main() called end ..." | tee -a ${g_RUN_LOG}
+    logWriter INFO "main() called begin ..." | tee -a ${g_RUN_LOG}
     CheckDir ${GOPATH}/src
     CheckDir ${GOPATH}/pkg
     CheckDir ${GOPATH}/bin
