@@ -15,22 +15,22 @@ function getTimeStamp()
     echo "${myTime}"
 }
 
-function info()
+function _info()
 {
     echo -e "\033[37m$(getTimeStamp) INFO $* \033[0m"
 }
 
-function error()
+function _error()
 {
     echo -e "\033[31m$(getTimeStamp) ERROR $* \033[0m"
 }
 
-function warning()
+function _warning()
 {
     echo -e "\033[33m$(getTimeStamp) WARNING $* \033[0m"
 }
 
-function success()
+function _success()
 {
     echo -e "\033[34m$(getTimeStamp) INFO $* \033[0m"
 }
@@ -38,9 +38,10 @@ function success()
 function logConsole()
 {
     if [[ $# -lt 2 ]] ; then
-        error "Called function logConsole() with PARAMETER_ERROR(ReturnCode = 11)"
-        info "Usage: logConsole logLevel <error, info, warn> msg"
-        info "Example: logConsole info The client works normally, all the nodes work normally."
+        _error "Called function logConsole() with PARAMETER_ERROR(ReturnCode = 11)"
+        _info "Usage: logConsole logLevel <error, info, warn> msg"
+        _info "Example: logConsole info The client works normally, all the nodes work normally."
+        
         exit ${g_PARAMETER_ERROR}
     fi
 
@@ -55,9 +56,9 @@ function logConsole()
     done
 
     if [[ ${_valid_flag} = "false" ]]; then
-        error "Called function logConsole() with INVALID_LOG_LEVEL_TYPE(ReturnCode = 12)"
-        info "The valid log level is < WARN INFO ERROR >. "
-        info "Example: logConsole info The client works normally, all the nodes work normally."
+        _error "Called function logConsole() with INVALID_LOG_LEVEL_TYPE(ReturnCode = 12)"
+        _info "The valid log level is < WARN INFO ERROR >. "
+        _info "Example: logConsole info The client works normally, all the nodes work normally."
 
         exit ${g_INVALID_LOG_LEVEL_TYPE}
     fi
@@ -85,16 +86,16 @@ function logConsole()
     if [[ ${__DEBUG__} = "on" ]];then
         case $_log_level in
         ERROR)
-            error "${_message}"
+            _error "${_message}"
             ;;
         WARN)
-            warning "${_message}"
+            _warning "${_message}"
             ;;
         OK)
-            success "${_message}"
+            _success "${_message}"
             ;;
         INFO)
-            info "${_message}" 
+            _info "${_message}" 
             ;;
         esac
     fi
@@ -104,26 +105,27 @@ function logConsole()
 
 function logFile(){
     if [[ $# -lt 2 ]] ; then
-        error "Called function logFile() with PARAMETER_ERROR(ReturnCode = 11)"
-        info "Usage: logFile logFile msg"
-        info "Example: logFile /var/run.log The client works normally, all the nodes work normally."
-        exit ${g_PARAMETER_ERROR}
+        _error "Called function logFile() with PARAMETER_ERROR(ReturnCode = 11)"
+        _info "Usage: logFile logFile msg"
+        _info "Example: logFile /var/run.log The client works normally, all the nodes work normally."
+        _exit ${g_PARAMETER_ERROR}
     fi
 
     local _log_file=$1
     local _message
     _message=$(echo "$*" |cut -d " " -f2-)
 
-    [[ ${__DEBUG__} = "on" ]] && info "$_message" | tee -a "$_log_file" 1>/dev/null 2>&1 ||:
+    [[ ${__DEBUG__} = "on" ]] && _info "$_message" | tee -a "$_log_file" 1>/dev/null 2>&1 ||:
     
     return ${g_OK}
 }
 
 function logConsoleFile(){
     if [[ $# -lt 3 ]] ; then
-        error "Called function logConsoleFile() with PARAMETER_ERROR(ReturnCode = 11)"
-        info "Usage: logLevel <error, info, warn> logFile msg"
-        info "Example: logConsoleFile INFO /var/run.log The client works normally, all the nodes work normally."
+        _error "Called function logConsoleFile() with PARAMETER_ERROR(ReturnCode = 11)"
+        _info "Usage: logLevel <error, info, warn> logFile msg"
+        _info "Example: logConsoleFile INFO /var/run.log The client works normally, all the nodes work normally."
+        
         exit ${g_PARAMETER_ERROR}
     fi
 
